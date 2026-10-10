@@ -1,0 +1,215 @@
+
+.jar-scene {
+  position: relative;
+  width: min(340px, 90vw);
+  height: 440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+}
+
+.jar-glow {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(213, 163, 104, 0.24),
+    rgba(144, 83, 139, 0.12) 45%,
+    transparent 72%
+  );
+  filter: blur(15px);
+  z-index: -1;
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+.jar-lid {
+  position: absolute;
+  top: 35px;
+  width: 224px;
+  height: 48px;
+  z-index: 5;
+}
+
+.jar-lid-top {
+  position: absolute;
+  top: 0;
+  left: 8px;
+  width: 208px;
+  height: 25px;
+  border-radius: 50%;
+  background: linear-gradient(
+    90deg,
+    #86603c,
+    #f4d79d 30%,
+    #b88c53 65%,
+    #76502f
+  );
+  border: 2px solid #e8c58c;
+}
+
+.jar-lid-band {
+  position: absolute;
+  top: 12px;
+  width: 224px;
+  height: 34px;
+  border-radius: 8px 8px 13px 13px;
+  background: linear-gradient(
+    90deg,
+    #75502f,
+    #d7ae70 18%,
+    #f0d29b 42%,
+    #b1844d 75%,
+    #684528
+  );
+  border-bottom: 3px solid #8a6139;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.jar-glass {
+  position: absolute;
+  top: 72px;
+  width: 215px;
+  height: 315px;
+  border-radius: 28px 28px 48px 48px;
+  border: 3px solid rgba(245, 224, 202, 0.55);
+  background: linear-gradient(
+    105deg,
+    rgba(255, 255, 255, 0.18),
+    rgba(230, 202, 231, 0.07) 35%,
+    rgba(255, 255, 255, 0.04) 65%,
+    rgba(255, 255, 255, 0.16)
+  );
+  box-shadow:
+    inset 8px 0 18px rgba(255, 255, 255, 0.1),
+    inset -9px 0 16px rgba(255, 255, 255, 0.08),
+    0 20px 40px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.jar-highlight {
+  position: absolute;
+  left: 14px;
+  top: 20px;
+  width: 16px;
+  height: 215px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  filter: blur(7px);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.jar-papers {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.jar-paper {
+  position: absolute;
+  left: var(--paper-left);
+  bottom: var(--paper-bottom);
+  width: 54px;
+  height: 28px;
+  border-radius: 4px;
+  background: var(--paper-color);
+  border: 1px solid rgba(80, 45, 55, 0.2);
+  box-shadow:
+    2px 3px 5px rgba(0, 0, 0, 0.2),
+    inset 0 -5px 8px rgba(75, 40, 50, 0.1);
+  transform: translateX(-50%) rotate(var(--paper-rotation));
+}
+
+.jar-paper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  right: 4px;
+  border-top: 1px solid rgba(85, 55, 65, 0.25);
+}
+
+.jar-label {
+  position: absolute;
+  left: 50%;
+  top: 49%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  width: 165px;
+  height: 65px;
+  border: 1px solid #c8a56d;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #f5e8d2, #dfc9a9);
+  color: #58354b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.jar-label-star {
+  color: #ad7e45;
+  font-size: 13px;
+}
+
+.jar-shadow {
+  position: absolute;
+  bottom: 33px;
+  width: 230px;
+  height: 25px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  filter: blur(14px);
+  z-index: -1;
+}
+
+.shaking .jar-glass,
+.shaking .jar-lid {
+  animation: jar-shake 0.55s ease-in-out infinite;
+}
+
+.shaking .jar-paper {
+  animation: paper-rattle 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes jar-shake {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-5deg); }
+  40% { transform: rotate(5deg); }
+  60% { transform: rotate(-4deg); }
+  80% { transform: rotate(4deg); }
+}
+
+@keyframes paper-rattle {
+  from {
+    transform: translateX(-50%)
+      rotate(var(--paper-rotation)) translateY(0);
+  }
+  to {
+    transform: translateX(-50%)
+      rotate(var(--paper-rotation)) translateY(-9px);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jar-glow,
+  .shaking .jar-glass,
+  .shaking .jar-lid,
+  .shaking .jar-paper {
+    animation: none;
+  }
+}
