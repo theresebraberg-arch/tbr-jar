@@ -11,7 +11,8 @@ const paperColors = [
 ];
 
 export default function Jar({ bookCount, isShaking = false }) {
-  const visiblePapers = Math.min(bookCount, 24);
+  // En lapp per bok, upp till 80 synliga lappar.
+  const visiblePapers = Math.min(Math.max(0, bookCount), 80);
 
   return (
     <div className={`jar-scene ${isShaking ? "shaking" : ""}`}>
@@ -26,18 +27,32 @@ export default function Jar({ bookCount, isShaking = false }) {
         <div className="jar-highlight" />
 
         <div className="jar-papers">
-          {Array.from({ length: visiblePapers }, (_, index) => (
-            <div
-              key={index}
-              className="jar-paper"
-              style={{
-                "--paper-color": paperColors[index % paperColors.length],
-                "--paper-rotation": `${(index * 47) % 80 - 40}deg`,
-                "--paper-left": `${12 + (index * 37) % 70}%`,
-                "--paper-bottom": `${8 + Math.floor(index / 6) * 21}%`,
-              }}
-            />
-          ))}
+          {Array.from({ length: visiblePapers }, (_, index) => {
+            // Bygger upp högen från botten av burken.
+            const layer = Math.floor(index / 8);
+            const position = index % 8;
+
+            const left =
+              18 + position * 9 + ((layer * 7) % 9);
+
+            const bottom =
+              5 + layer * 12 + ((index * 3) % 7);
+
+            return (
+              <div
+                key={index}
+                className="jar-paper"
+                style={{
+                  "--paper-color":
+                    paperColors[index % paperColors.length],
+                  "--paper-rotation":
+                    `${((index * 47) % 80) - 40}deg`,
+                  "--paper-left": `${left}%`,
+                  "--paper-bottom": `${bottom}%`,
+                }}
+              />
+            );
+          })}
         </div>
 
         <div className="jar-label">
